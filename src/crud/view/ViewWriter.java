@@ -1,20 +1,20 @@
 package crud.view;
 
-import crud.model.Label;
-import crud.repo.LabelRepo;
+import crud.model.Writer;
+import crud.repo.WriterRepo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-
-public class TestLabel {
-    public static void main(String[] args) throws IOException {
+public class ViewWriter {
+    public void run() {
         boolean t = true;
-        System.out.println("Добро пожаловать в Label!");
+        System.out.println("Добро пожаловать в Writer!");
         int choice;
         String s;
+        String k;
         Scanner cs = new Scanner(System.in);
 
 
@@ -22,38 +22,41 @@ public class TestLabel {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("Выберете меню:");
-            System.out.println("    1. Посмотреть список Label");
-            System.out.println("    2. Создать новый Label");
-            System.out.println("    3. Удалить Label");
-            System.out.println("    4. Изменить Label");
+            System.out.println("    1. Посмотреть список Writer");
+            System.out.println("    2. Создать новый Writer");
+            System.out.println("    3. Удалить Writer");
+            System.out.println("    4. Изменить Writer");
             System.out.println("    0. Выход");
 
             choice = cs.nextInt();
             if (choice == 1) {
                 try {
 
-                    LabelRepo labelRepo = new LabelRepo();
-                    labelRepo.read();
+                    WriterRepo writerRepo = new WriterRepo();
+                    writerRepo.read();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (choice == 2) {
 
                 try {
-                    Label label = new Label();
-                    LabelRepo labelRepo = new LabelRepo();
-                    System.out.println("Введите Label");
+                    Writer writer = new Writer();
+                    WriterRepo writerRepo = new WriterRepo();
+                    System.out.println("Введите FirstName");
                     s = br.readLine();
-                    label.setName(s);
-                    labelRepo.create(label);
+                    writer.setFirstName(s);
+                    System.out.println("Введите LastName");
+                    k = br.readLine();
+                    writer.setLastName(k);
+                    writerRepo.create(writer);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (choice == 3) {
                 try {
 
-                    LabelRepo labelRepo = new LabelRepo();
-                    labelRepo.delete();
+                    WriterRepo writerRepo = new WriterRepo();
+                    writerRepo.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -61,13 +64,13 @@ public class TestLabel {
             } else if (choice == 4) {
                 try {
 
-                    LabelRepo labelRepo = new LabelRepo();
-                    labelRepo.change();
+                    WriterRepo writerRepo = new WriterRepo();
+                    writerRepo.change();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            }else if (choice == 0) {
+            } else if (choice == 0) {
                 t = false;
             } else {
                 System.out.println("!");
@@ -82,4 +85,3 @@ public class TestLabel {
         }
     }
 }
-
