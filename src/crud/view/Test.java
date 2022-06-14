@@ -165,7 +165,6 @@ public class Test {
                         System.out.println("!");
                     }
                 }
-
             } else if (choice == 3) {
                 boolean l = true;
                 System.out.println("Добро пожаловать в Label!");
