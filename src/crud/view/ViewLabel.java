@@ -1,7 +1,8 @@
 package crud.view;
 
 import crud.model.Label;
-import crud.repo.LabelRepo;
+import crud.repo.IoLabelRepo;
+import crud.repo.LabelRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class ViewLabel {
         System.out.println("Добро пожаловать в Label!");
         int choice;
         String s;
+        int id;
         Scanner cs = new Scanner(System.in);
 
         while (t) {
@@ -30,9 +32,8 @@ public class ViewLabel {
             choice = cs.nextInt();
             if (choice == 1) {
                 try {
-
-                    LabelRepo labelRepo = new LabelRepo();
-                    labelRepo.read();
+                    LabelRepository ioLabelRepo = new IoLabelRepo();
+                    ioLabelRepo.read();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -40,19 +41,20 @@ public class ViewLabel {
 
                 try {
                     Label label = new Label();
-                    LabelRepo labelRepo = new LabelRepo();
+                    LabelRepository ioLabelRepo = new IoLabelRepo();
                     System.out.println("Введите Label");
                     s = br.readLine();
                     label.setName(s);
-                    labelRepo.create(label);
+                    ioLabelRepo.create(label);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (choice == 3) {
                 try {
-
-                    LabelRepo labelRepo = new LabelRepo();
-                    labelRepo.delete();
+                    LabelRepository labelRepo = new IoLabelRepo();
+                    System.out.println("Введите номер Label который хотите удалить");
+                    id = cs.nextInt();
+                    labelRepo.delete(id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -60,13 +62,17 @@ public class ViewLabel {
             } else if (choice == 4) {
                 try {
 
-                    LabelRepo labelRepo = new LabelRepo();
-                    labelRepo.change();
+
+                    LabelRepository ioLabelRepo = new IoLabelRepo();
+                    System.out.println("Введите номер Label который хотите изменить");
+
+                    ioLabelRepo.update();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            }else if (choice == 0) {
+            } else if (choice == 0) {
                 t = false;
             } else {
                 System.out.println("!");

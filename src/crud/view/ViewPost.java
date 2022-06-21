@@ -2,7 +2,7 @@ package crud.view;
 
 import crud.model.Post;
 
-import crud.repo.PostRepo;
+import crud.repo.IoPostRepo;
 
 
 import java.io.BufferedReader;
@@ -35,8 +35,8 @@ public class ViewPost {
             if (choice == 1) {
                 try {
 
-                    PostRepo postRepo = new PostRepo();
-                    postRepo.read();
+                    IoPostRepo ioPostRepo = new IoPostRepo();
+                    ioPostRepo.read();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -44,7 +44,7 @@ public class ViewPost {
 
                 try {
                     Post post = new Post();
-                    PostRepo postRepo = new PostRepo();
+                    IoPostRepo ioPostRepo = new IoPostRepo();
                     System.out.println("Введите Content");
                     s = br.readLine();
                     post.setContent(s);
@@ -54,15 +54,15 @@ public class ViewPost {
                     System.out.println("Введите Updated");
                     l = br.readLine();
                     post.setUpdated(l);
-                    postRepo.create(post);
+                    ioPostRepo.create(post);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (choice == 3) {
                 try {
 
-                    PostRepo postRepo = new PostRepo();
-                    postRepo.delete();
+                    IoPostRepo ioPostRepo = new IoPostRepo();
+                    ioPostRepo.delete(2);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -70,8 +70,8 @@ public class ViewPost {
             } else if (choice == 4) {
                 try {
 
-                    PostRepo postRepo = new PostRepo();
-                    postRepo.change();
+                    IoPostRepo ioPostRepo = new IoPostRepo();
+                    ioPostRepo.update();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

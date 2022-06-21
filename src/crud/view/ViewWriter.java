@@ -1,7 +1,7 @@
 package crud.view;
 
 import crud.model.Writer;
-import crud.repo.WriterRepo;
+import crud.repo.IoWriterRepo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +15,7 @@ public class ViewWriter {
         int choice;
         String s;
         String k;
+        int id;
         Scanner cs = new Scanner(System.in);
 
 
@@ -32,8 +33,8 @@ public class ViewWriter {
             if (choice == 1) {
                 try {
 
-                    WriterRepo writerRepo = new WriterRepo();
-                    writerRepo.read();
+                    IoWriterRepo ioWriterRepo = new IoWriterRepo();
+                    ioWriterRepo.read();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -41,22 +42,23 @@ public class ViewWriter {
 
                 try {
                     Writer writer = new Writer();
-                    WriterRepo writerRepo = new WriterRepo();
+                    IoWriterRepo ioWriterRepo = new IoWriterRepo();
                     System.out.println("Введите FirstName");
                     s = br.readLine();
                     writer.setFirstName(s);
                     System.out.println("Введите LastName");
                     k = br.readLine();
                     writer.setLastName(k);
-                    writerRepo.create(writer);
+                    ioWriterRepo.create(writer);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (choice == 3) {
                 try {
 
-                    WriterRepo writerRepo = new WriterRepo();
-                    writerRepo.delete();
+                    IoWriterRepo ioWriterRepo = new IoWriterRepo();
+                    System.out.println("Введите номер Writer который хотите удалить");                    id = cs.nextInt();
+                    ioWriterRepo.delete(id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -64,8 +66,8 @@ public class ViewWriter {
             } else if (choice == 4) {
                 try {
 
-                    WriterRepo writerRepo = new WriterRepo();
-                    writerRepo.change();
+                    IoWriterRepo ioWriterRepo = new IoWriterRepo();
+                    ioWriterRepo.update();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

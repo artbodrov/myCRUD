@@ -8,13 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class WriterRepo {
+public class IoWriterRepo implements WriteRepository {
     private Map<Integer, Writer> map;
 
-    public WriterRepo() {
+    public IoWriterRepo() {
         this.map = createMap();
     }
 
+    @Override
     public void read() throws IOException {
         try {
 
@@ -59,13 +60,14 @@ public class WriterRepo {
 
         try (BufferedWriter wr = new BufferedWriter(new FileWriter("C://Users//ru156010005//Documents//crud//writers.txt", true))) {
 
-            wr.write(writer.getId() + ";" + writer.getFirstName()+ ";" + writer.getLastName() + "\n");
+            wr.write(writer.getId() + ";" + writer.getFirstName() + ";" + writer.getLastName() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
 
         }
     }
 
+    @Override
     public Writer create(Writer writer) throws IOException {
         writer.setId(calculateid());
         write(writer);
@@ -96,7 +98,7 @@ public class WriterRepo {
             fis.close();
 
             for (Map.Entry<Integer, Writer> m : map.entrySet()) {
-               //  System.out.println("Key: " + m.getKey() + ", Writer: " + m.getValue());
+                //  System.out.println("Key: " + m.getKey() + ", Writer: " + m.getValue());
             }
             return map;
 
@@ -106,20 +108,19 @@ public class WriterRepo {
 
         return map;
     }
-    public void delete() throws IOException {
+
+    @Override
+    public void delete(Integer id) throws IOException {
 
         File writeToFile = new File("C://Users//ru156010005//Documents//crud//writers.txt");
         FileOutputStream fos = new FileOutputStream(writeToFile);
         PrintWriter pw = new PrintWriter(fos);
-        System.out.println("Введите номер Writer который хотите удалить");
-        Scanner sc = new Scanner(System.in);
-        Integer s = sc.nextInt();
-        map.remove(s);
+        map.remove(id);
 
 
         for (Map.Entry<Integer, Writer> m : map.entrySet()) {
 
-            pw.println(m.getValue().getId() + ";" + m.getValue().getFirstName()+ ";" + m.getValue().getLastName());
+            pw.println(m.getValue().getId() + ";" + m.getValue().getFirstName() + ";" + m.getValue().getLastName());
 
         }
 
@@ -127,9 +128,16 @@ public class WriterRepo {
         pw.close();
         fos.close();
 
+
+    }
+    @Override
+    public Writer getId(Integer id) {
+
+        return map.getOrDefault(id, null);
     }
 
-    public void change() throws IOException {
+    @Override
+    public void update() throws IOException {
 
         File writeToFile = new File("C://Users//ru156010005//Documents//crud//writers.txt");
         FileOutputStream fos = new FileOutputStream(writeToFile);
@@ -146,7 +154,7 @@ public class WriterRepo {
         map.put(s, new Writer(s, k, l));
 
         for (Map.Entry<Integer, Writer> m : map.entrySet()) {
-            pw.println(m.getValue().getId() + ";" + m.getValue().getFirstName()+ ";" + m.getValue().getLastName());
+            pw.println(m.getValue().getId() + ";" + m.getValue().getFirstName() + ";" + m.getValue().getLastName());
 
 
         }

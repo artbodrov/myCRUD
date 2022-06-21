@@ -8,11 +8,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 
-public class LabelRepo {
+public class IoLabelRepo implements LabelRepository {
 
     private Map<Integer, Label> map;
 
-    public LabelRepo() {
+
+    public IoLabelRepo() {
         this.map = createMap();
     }
 
@@ -25,10 +26,7 @@ public class LabelRepo {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
 
     private int calculateid() throws IOException {
         String result = null;
@@ -50,6 +48,7 @@ public class LabelRepo {
         }
     }
 
+    @Override
     public Label create(Label label) throws IOException {
         label.setId(calculateid());
         write(label);
@@ -58,6 +57,7 @@ public class LabelRepo {
 
     }
 
+    @Override
     public void read() throws IOException {
         try {
 
@@ -77,6 +77,7 @@ public class LabelRepo {
             e.printStackTrace();
         }
     }
+
 
     private Map<Integer, Label> createMap() {
 
@@ -117,21 +118,18 @@ public class LabelRepo {
 
     }
 
-
-    public void delete() throws IOException {
+    @Override
+    public void delete(Integer id) throws IOException {
 
         File writeToFile = new File("C://Users//ru156010005//Documents//crud//labels.txt");
         FileOutputStream fos = new FileOutputStream(writeToFile);
         PrintWriter pw = new PrintWriter(fos);
-        System.out.println("Введите номер Label который хотите удалить");
-        Scanner sc = new Scanner(System.in);
-        Integer s = sc.nextInt();
-        map.remove(s);
+        map.remove(id);
 
 
         for (Map.Entry<Integer, Label> m : map.entrySet()) {
 
-           pw.println(m.getValue().getId() + ";" + m.getValue().getName());
+            pw.println(m.getValue().getId() + ";" + m.getValue().getName());
 
         }
 
@@ -139,20 +137,26 @@ public class LabelRepo {
         pw.close();
         fos.close();
 
+
+    }
+    @Override
+    public Label getId(Integer id){
+
+        return map.getOrDefault(id,null);
     }
 
-    public void change() throws IOException {
+    @Override
+    public void update() throws IOException {
 
         File writeToFile = new File("C://Users//ru156010005//Documents//crud//labels.txt");
         FileOutputStream fos = new FileOutputStream(writeToFile);
         PrintWriter pw = new PrintWriter(fos);
-        System.out.println("Введите номер Label который хотите изменить");
         BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-        Scanner sc2 = new Scanner(System.in);
-        Integer s = sc2.nextInt();
         System.out.println("Введите новый Label");
+        Scanner sc = new Scanner(System.in);
+        int s = sc.nextInt();
         String k = br2.readLine();
-        map.put(s, new Label(s, k));
+        map.put(s,new Label(s,k));
 
         for (Map.Entry<Integer, Label> m : map.entrySet()) {
 

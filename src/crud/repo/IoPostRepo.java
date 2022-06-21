@@ -1,20 +1,21 @@
 package crud.repo;
 
+import crud.model.Label;
 import crud.model.Post;
-
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class PostRepo {
+public class IoPostRepo implements PostRepository{
     private Map<Integer, Post> map;
 
-    public PostRepo() {
+    public IoPostRepo() {
         this.map = createMap();
     }
 
+    @Override
     public void read() throws IOException {
         try {
 
@@ -59,13 +60,14 @@ public class PostRepo {
 
         try (BufferedWriter wr = new BufferedWriter(new FileWriter("C://Users//ru156010005//Documents//crud//posts.txt", true))) {
 
-            wr.write(post.getId() + ";" + post.getContent()+ ";" + post.getCreated() +";" + post.getUpdated() + "\n");
+            wr.write(post.getId() + ";" + post.getContent() + ";" + post.getCreated() + ";" + post.getUpdated() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
 
         }
     }
 
+    @Override
     public Post create(Post post) throws IOException {
         post.setId(calculateid());
         write(post);
@@ -91,7 +93,7 @@ public class PostRepo {
                 String created = splitcurrentLines[2];
                 String updated = splitcurrentLines[3];
 
-                map.put(id, new Post(id, content, created,updated));
+                map.put(id, new Post(id, content, created, updated));
 
             }
             fis.close();
@@ -107,20 +109,22 @@ public class PostRepo {
 
         return map;
     }
-    public void delete() throws IOException {
+
+    @Override
+    public void delete(Integer id) throws IOException {
 
         File writeToFile = new File("C://Users//ru156010005//Documents//crud//posts.txt");
         FileOutputStream fos = new FileOutputStream(writeToFile);
         PrintWriter pw = new PrintWriter(fos);
         System.out.println("Введите номер posts который хотите удалить");
-        Scanner sc = new Scanner(System.in);
-        Integer s = sc.nextInt();
-        map.remove(s);
+     //   Scanner sc = new Scanner(System.in);
+    //    Integer s = sc.nextInt();
+        map.remove(id);
 
 
         for (Map.Entry<Integer, Post> m : map.entrySet()) {
 
-            pw.println(m.getValue().getId() + ";" + m.getValue().getContent()+ ";" + m.getValue().getCreated()+ ";" + m.getValue().getUpdated());
+            pw.println(m.getValue().getId() + ";" + m.getValue().getContent() + ";" + m.getValue().getCreated() + ";" + m.getValue().getUpdated());
 
         }
 
@@ -129,8 +133,14 @@ public class PostRepo {
         fos.close();
 
     }
+    @Override
+    public Post getId(Integer id) {
 
-    public void change() throws IOException {
+        return map.getOrDefault(id, null);
+    }
+
+    @Override
+    public void update() throws IOException {
 
         File writeToFile = new File("C://Users//ru156010005//Documents//crud//posts.txt");
         FileOutputStream fos = new FileOutputStream(writeToFile);
@@ -146,10 +156,10 @@ public class PostRepo {
         System.out.println("Введите новый Post updated");
         String p = br2.readLine();
 
-        map.put(s, new Post(s, k, l,p));
+        map.put(s, new Post(s, k, l, p));
 
         for (Map.Entry<Integer, Post> m : map.entrySet()) {
-            pw.println(m.getValue().getId() + ";" + m.getValue().getContent()+ ";" + m.getValue().getCreated()+ ";" + m.getValue().getUpdated());
+            pw.println(m.getValue().getId() + ";" + m.getValue().getContent() + ";" + m.getValue().getCreated() + ";" + m.getValue().getUpdated());
 
 
         }

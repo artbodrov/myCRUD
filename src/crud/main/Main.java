@@ -1,5 +1,6 @@
 package crud.main;
 
+import crud.repo.IoLabelRepo;
 import crud.view.ViewLabel;
 import crud.view.ViewPost;
 import crud.view.ViewWriter;
@@ -36,7 +37,7 @@ public class Main {
                 viewLabel.run();
             } else if (choice == 0) {
                 t = false;
-            }else {
+            } else {
                 System.out.println("!");
                 System.out.println("!!");
                 System.out.println("!!!");
@@ -46,5 +47,6 @@ public class Main {
                 System.out.println("!");
             }
         }
+
     }
 }
